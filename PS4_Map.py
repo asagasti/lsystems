@@ -1,5 +1,7 @@
 import pygame
 import turtle
+import string
+
 # Define some colors
 BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
@@ -7,7 +9,7 @@ WHITE    = ( 255, 255, 255)
 # This is a simple class that will help us print to the screen
 # It has nothing to do with the joysticks, just outputing the
 # information.
-class TextPrint:
+class PS4Input:
     Xbutton = 1
     OButton = 2
     Ybutton = 3
@@ -19,19 +21,24 @@ class TextPrint:
     LEFT = "(-1,0)"
     RIGHT = "(1,0)"
     ENTER = 13
+    ABC = string.ascii_uppercase
+    letter = 0
     
    
     def __init__(self):
+        
         self.reset()
+        pygame.init()
         self.font = pygame.font.Font(None, 20)
-        self.line = " "
+        self.line = ""
         self.step = True
         self.draw = True
         self.last = pygame.time.get_ticks()
         self.cooldown = 300
 
-    def printf(self,screen,textString):
+    def printf(self,textString):
         textBitmap = self.font.render(textString, True, BLACK)
+        global screen
         screen.blit(textBitmap, [self.x, self.y])
         self.y += self.line_height
         
@@ -45,9 +52,17 @@ class TextPrint:
         
     def unindent(self):
         self.x -= 10
-    def getline(self):
+        
+    def sendToScreen(self, textString):
+        textBitmap = self.font.render(textString, True, BLACK)
+        global screen
+        screen.blit(textBitmap, [self.x, self.y])
+        self.y += self.line_height
+    
+    def getline(self, step):
         #Loop until the user clicks the close button.
         done = False
+        self.line = ""
         while done==False:
    
     
@@ -69,15 +84,23 @@ class TextPrint:
                 joystick.init()
                 # Get the name from the OS for the controller/joystick
                 name = joystick.get_name()
-                textPrint.printf(screen, "Joystick name: {}".format(name) )
                 
                 # Usually axis run in pairs, up/down for one, and left/right for
                 # the other.
                 axes = joystick.get_numaxes()
                 axis = joystick.get_axis( 0 )
-                textPrint.printf(screen, "Axis {} value: {:>6.3f}".format(0, axis) )
-                textPrint.unindent()
-                    
+                if(step == 1):
+                    textPrint.printf( "Iterations" )
+                    textPrint.printf( "Axis {} value: {:>6.3f}".format(0, axis) )
+                    textPrint.unindent()
+                if(step == 2):
+                    textPrint.printf( "Angle" )
+                    textPrint.printf( "Axis {} value: {:>6.3f}".format(0, axis) )
+                    textPrint.unindent()
+                if(step == 3):
+                    textPrint.printf( "Axiom" )
+                if(step == 4):
+                    textPrint.printf( "Rules" )
                 buttons = joystick.get_numbuttons()
                #Control buttons to string
                 for i in range( buttons ):
@@ -86,7 +109,7 @@ class TextPrint:
                     if now - self.last >= self.cooldown:
                         if i == 1 and button:
                             self.last = now
-                            self.line += "A"
+                            self.letter += 1
                         if i == 2 and button:
                             self.last = now
                             self.step = not self.step
@@ -111,9 +134,17 @@ class TextPrint:
                             self.line += "]" 
                         if i == 13 and button:
                             self.last = now
-                            done = True       
+                            done = True 
+                        if i == 7 and button:
+                            self.last = now
+                            self.line += self.ABC[self.letter]
+                            self.letter = 0
+                        if i == 6 and button:
+                            self.last = now 
+                            self.line = self.line[:-1]
+                        
                 textPrint.indent()
-                textPrint.printf(screen, "line: " +  self.line)
+                textPrint.printf("Input: " +  self.line)
                    
                 textPrint.unindent()
                     
@@ -161,9 +192,13 @@ class TextPrint:
 
                 # Limit to 20 frames per second
                 clock.tick(20)
-    
+                
+        return self.line
+    def end(self):
+        done = True
+        pygame.quit()
 
-pygame.init()
+
  
 # Set the width and height of the screen [width,height]
 size = [500, 700]
@@ -180,11 +215,11 @@ clock = pygame.time.Clock()
 pygame.joystick.init()
     
 # Get ready to print
-textPrint = TextPrint()
+textPrint = PS4Input()
 # -------- Main Program Loop -----------
-textPrint.getline()
+
     
 # Close the window and quit.
 # If you forget this line, the program will 'hang'
 # on exit if running from IDLE.
-pygame.quit ()
+

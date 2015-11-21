@@ -1,0 +1,13 @@
+# Image positioning and dimensions
+Dimensions : 1920, 1080
+Position : -300, -300
+
+Iterations : 21
+Angle : '73
+Linelength : 3 
+Linewidth : 1 
+Linecolor : #00ff00 
+Background : #ffffff 
+Axiom : A
+A = cF++Ff-ZAB
+B = cZF++FA

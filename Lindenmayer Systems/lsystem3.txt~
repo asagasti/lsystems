@@ -1,0 +1,12 @@
+Dimensions : 1920, 1080 
+Position : -300, -300 
+
+Iterations : 45
+Angle : '55
+Linelength : 3 
+Linewidth : 1 
+Linecolor : #00ff00 
+Background : #ffffff 
+Axiom : AF+B
+A = cFF-++FFF++F-FZZB
+B = cZF-FF+FA
