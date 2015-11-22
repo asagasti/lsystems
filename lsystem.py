@@ -69,6 +69,10 @@ def p_raiz4(p):
 def p_W(p):
     'W : S W C'
     p[0] = p[1] + p[2] + p[3]
+
+def p_WSC(p):
+    'W : S W C W'
+    p[0] = p[1] + p[2] + p[3] + p[4]
     
 def p_SW(p):
     ''' W : ID W

@@ -1,0 +1,11 @@
+Dimensions : 1920, 1080 
+Position : -200, -200 
+
+Iterations : 34
+Angle : '63
+Linelength : 50 
+Linewidth : 2 
+Linecolor : #00ff00 
+Background : #ffffff 
+Axiom : A
+A = cF-[F+F]-FA

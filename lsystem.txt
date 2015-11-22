@@ -1,4 +1,0 @@
-Dimensions : 1920, 1080 
-Position : -300, -300 
-
-Iterations : 
